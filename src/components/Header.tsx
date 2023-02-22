@@ -2,7 +2,7 @@ import React from 'react'
 
 const Header = () => {
     return (
-        <header className='bg-black py-5'>
+        <header className='fixed top-0 w-full left-0 bg-black'>
             <h1 className='text-white'>Header</h1>
         </header>
     )
