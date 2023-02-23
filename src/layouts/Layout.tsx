@@ -7,7 +7,7 @@ const Layout = (props: { children: any }) => {
     return (
         <div className='flex flex-col min-h-screen relative bg-slate-900 text-white px-16'>
             <Header />
-            <main className='flex-1'>
+            <main className='flex-1 flex flex-col justify-center items-center'>
                 {children}
             </main>
             <Footer />
