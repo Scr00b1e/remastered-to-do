@@ -1,4 +1,5 @@
 import { Login } from '@/components/Login'
+import ToDoItem from '@/components/ToDoItem'
 
 export default function Home() {
   return (
@@ -8,6 +9,9 @@ export default function Home() {
     <div className='w-full max-w-7xl flex flex-col justify-center items-center'>
       <p className='uppercase text-4xl text-center mb-10'>Text here something</p>
       <input type="text" className='outline-none p-3 text-slate-800' />
+      <div className='w-full flex justify-center items-center flex-col mt-5'>
+        <ToDoItem />
+      </div>
     </div>
   )
 }
