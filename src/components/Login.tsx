@@ -1,15 +1,29 @@
+import { useAuth } from '@/context/AuthContext'
 import React from 'react'
 
 export const Login = () => {
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
     const [error, setError] = React.useState('')
+    const [logginIn, setLogginIn] = React.useState(true)
 
-    const onSubmit = () => {
+    const { login, signup, currentUser } = useAuth()
+    console.log(currentUser);
+
+    const onSubmit = async () => {
         if (!email || !password) {
             setError('Please enter email or password')
             return
         }
+        if (logginIn) {
+            try {
+                await (login(email, password))
+            } catch (err) {
+                setError('Incorrect email or password')
+            }
+            return
+        }
+        await signup(email, password)
     }
 
     return (
