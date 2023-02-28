@@ -1,7 +1,33 @@
 import React from 'react'
 import ToDoItem from './ToDoItem'
+import { doc, getDoc } from 'firebase/firestore'
+import { db } from 'firebaseconfig'
+import { useAuth } from '@/context/AuthContext'
 
 const ToDoPanel = () => {
+    const [todo, setTodo] = React.useState(null)
+
+    const { currentUser } = useAuth()
+
+    React.useEffect(() => {
+        const getData = async () => {
+            try {
+                const docRef = doc(db, 'to-do', currentUser.uid)
+                const docSnap = await getDoc(docRef)
+
+                if (docSnap.exists()) {
+                    // setTodo(docSnap.data().todo)
+                    console.log(docSnap.data());
+                } else {
+                    console.log('bruh');
+                }
+            } catch {
+                alert('Something is wrong...')
+            }
+        }
+        getData()
+    }, [])
+
     return (
         <div className='w-full max-w-7xl flex flex-col justify-center items-center'>
             <p className='uppercase text-4xl text-center mb-10 mt-28'>Text here something</p>
