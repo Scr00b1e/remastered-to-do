@@ -1,11 +1,11 @@
 import React from 'react'
 import ToDoItem from './ToDoItem'
-import { collection, doc, getDoc, getDocs } from 'firebase/firestore'
+import { doc, getDoc } from 'firebase/firestore'
 import { db } from 'firebaseconfig'
 import { useAuth } from '@/context/AuthContext'
 
 const ToDoPanel = () => {
-    const [todo, setTodo] = React.useState('')
+    const [todo, setTodo] = React.useState('hey')
 
     // const { currentUser } = useAuth()
 
@@ -15,8 +15,9 @@ const ToDoPanel = () => {
                 const docRef = doc(db, 'to-do', 'MmlDos4tUifGwtv3AxiA')
                 const docSnap = await getDoc(docRef)
                 if (docSnap.exists()) {
-                    setTodo(docSnap.data().todo)
-                    console.log(docSnap.data())
+                    const data = docSnap.data()
+                    setTodo(data.todo)
+                    console.log(data)
                 } else {
                     setTodo({})
                 }
