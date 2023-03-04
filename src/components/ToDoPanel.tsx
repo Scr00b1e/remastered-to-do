@@ -1,7 +1,7 @@
 import React from 'react'
 import ToDoItem from './ToDoItem'
 import { useAuth } from '@/context/AuthContext'
-import { collection, onSnapshot, query, QuerySnapshot } from 'firebase/firestore'
+import { collection, deleteDoc, doc, onSnapshot, query, QuerySnapshot } from 'firebase/firestore'
 import { db } from 'firebaseconfig'
 
 const ToDoPanel = () => {
@@ -22,6 +22,11 @@ const ToDoPanel = () => {
         return () => unsubsribe()
     }, [])
 
+    //delete data
+    const onDelete = async (id: string) => {
+        await deleteDoc(doc(db, 'to-do', 'MmlDos4tUifGwtv3AxiA'))
+    }
+
     return (
         <div className='w-full max-w-7xl flex flex-col justify-center items-center'>
             <p className='uppercase text-4xl text-center mb-10 mt-28'>Text here something</p>
@@ -31,7 +36,7 @@ const ToDoPanel = () => {
                 {
                     todo &&
                     todo.map((todo, i) => (
-                        <ToDoItem todo={todo} key={i} />
+                        <ToDoItem todo={todo} key={i} onDelete={onDelete} />
                     ))
                 }
             </div>
