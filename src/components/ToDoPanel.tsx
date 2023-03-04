@@ -1,14 +1,15 @@
 import React from 'react'
 import ToDoItem from './ToDoItem'
-import { collection, doc, getDoc, onSnapshot, query, QuerySnapshot } from 'firebase/firestore'
-import { db } from 'firebaseconfig'
 import { useAuth } from '@/context/AuthContext'
+import { collection, onSnapshot, query, QuerySnapshot } from 'firebase/firestore'
+import { db } from 'firebaseconfig'
 
 const ToDoPanel = () => {
     const [todo, setTodo] = React.useState([])
 
     // const { currentUser } = useAuth()
 
+    //fetch Data
     React.useEffect(() => {
         const q = query(collection(db, 'to-do'))
         const unsubsribe = onSnapshot(q, (querySnapshot) => {
