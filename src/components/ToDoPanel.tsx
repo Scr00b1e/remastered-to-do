@@ -1,31 +1,24 @@
 import React from 'react'
 import ToDoItem from './ToDoItem'
-import { doc, getDoc } from 'firebase/firestore'
+import { collection, doc, getDoc, onSnapshot, query, QuerySnapshot } from 'firebase/firestore'
 import { db } from 'firebaseconfig'
 import { useAuth } from '@/context/AuthContext'
 
 const ToDoPanel = () => {
-    const [todo, setTodo] = React.useState('hey')
+    const [todo, setTodo] = React.useState([])
 
     // const { currentUser } = useAuth()
 
     React.useEffect(() => {
-        const getData = async () => {
-            try {
-                const docRef = doc(db, 'to-do', 'MmlDos4tUifGwtv3AxiA')
-                const docSnap = await getDoc(docRef)
-                if (docSnap.exists()) {
-                    const data = docSnap.data()
-                    setTodo(data.todo)
-                    console.log(data)
-                } else {
-                    setTodo({})
-                }
-            } catch {
-                alert('Something is wrong')
-            }
-        }
-        getData()
+        const q = query(collection(db, 'to-do'))
+        const unsubsribe = onSnapshot(q, (querySnapshot) => {
+            let toDosArr = []
+            querySnapshot.forEach((doc) => {
+                toDosArr.push({ ...doc.data(), id: doc.id })
+            })
+            setTodo(toDosArr)
+        })
+        return () => unsubsribe()
     }, [])
 
     return (
@@ -34,7 +27,12 @@ const ToDoPanel = () => {
             <input type="text" className='outline-none p-3 text-slate-800 w-full max-w-3xl' />
             <button className='mt-2 px-5 py-1 border-2 border-white bg-gray-600 text-xl font-bold'>Add To-Do</button>
             <div className='w-full flex justify-center items-center flex-col mt-5'>
-                <ToDoItem todo={todo} />
+                {
+                    todo &&
+                    todo.map((todo, i) => (
+                        <ToDoItem todo={todo} key={i} />
+                    ))
+                }
             </div>
         </div>
     )
