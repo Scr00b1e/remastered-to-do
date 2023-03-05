@@ -55,7 +55,7 @@ const ToDoPanel = () => {
                 value={input} onChange={(e) => setInput(e.target.value)} />
             <button className='mt-2 px-5 py-1 border-2 border-white bg-gray-600 text-xl font-bold'
                 onClick={onAdd}>Add To-Do</button>
-            <div className='w-full flex justify-center items-center flex-col mt-5'>
+            <div className='w-full flex justify-center items-center flex-col mt-5 overflow-y-scroll overflow-x-hidden'>
                 {
                     loading
                         ? <div className='w-full'>
