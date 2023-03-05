@@ -6,20 +6,27 @@ import { db } from 'firebaseconfig'
 
 const ToDoPanel = () => {
     const [todo, setTodo] = React.useState([])
+    const [loading, setLoading] = React.useState(true)
 
+    console.log(loading)
     // const { currentUser } = useAuth()
 
     //fetch Data
     React.useEffect(() => {
-        const q = query(collection(db, 'to-do'))
-        const unsubsribe = onSnapshot(q, (querySnapshot) => {
-            let toDosArr = []
-            querySnapshot.forEach((doc) => {
-                toDosArr.push({ ...doc.data(), id: doc.id })
+        try {
+            const q = query(collection(db, 'to-do'))
+            const unsubsribe = onSnapshot(q, (querySnapshot) => {
+                let toDosArr = []
+                querySnapshot.forEach((doc) => {
+                    toDosArr.push({ ...doc.data(), id: doc.id })
+                })
+                setTodo(toDosArr)
+                setLoading(false)
             })
-            setTodo(toDosArr)
-        })
-        return () => unsubsribe()
+            return () => unsubsribe()
+        } catch {
+            alert('Something is wrong...')
+        }
     }, [])
 
     //delete data
@@ -34,10 +41,14 @@ const ToDoPanel = () => {
             <button className='mt-2 px-5 py-1 border-2 border-white bg-gray-600 text-xl font-bold'>Add To-Do</button>
             <div className='w-full flex justify-center items-center flex-col mt-5'>
                 {
-                    todo &&
-                    todo.map((todo, i) => (
-                        <ToDoItem todo={todo} key={i} onDelete={onDelete} />
-                    ))
+                    loading
+                        ? <div className='w-full'>
+                            <p className='text-3xl text-center'>Loading...</p>
+                        </div>
+
+                        : todo.map((todo, i) => (
+                            <ToDoItem todo={todo} key={i} onDelete={onDelete} />
+                        ))
                 }
             </div>
         </div>
