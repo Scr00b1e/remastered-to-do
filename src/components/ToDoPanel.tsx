@@ -32,15 +32,14 @@ const ToDoPanel = () => {
 
     //add data
     const onAdd = async (e: any) => {
-        e.prevent.default(e)
         if (input === '') {
             alert('You havent wrote anything')
             return
         }
-        await addDoc(db, 'to-do'), {
+        await addDoc(collection(db, 'to-do'), {
             tasks: input,
             status: false
-        }
+        })
         setInput('')
     }
 
