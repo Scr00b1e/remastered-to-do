@@ -1,6 +1,5 @@
 import React from 'react'
 import ToDoItem from './ToDoItem'
-import { useAuth } from '@/context/AuthContext'
 import { addDoc, collection, deleteDoc, doc, onSnapshot, query, QuerySnapshot } from 'firebase/firestore'
 import { db } from 'firebaseconfig'
 
@@ -8,9 +7,6 @@ const ToDoPanel = () => {
     const [todo, setTodo] = React.useState([])
     const [input, setInput] = React.useState('')
     const [loading, setLoading] = React.useState(true)
-
-    console.log(loading)
-    // const { currentUser } = useAuth()
 
     //fetch Data
     React.useEffect(() => {
@@ -45,7 +41,7 @@ const ToDoPanel = () => {
 
     //delete data
     const onDelete = async (id: string) => {
-        await deleteDoc(doc(db, 'to-do', 'MmlDos4tUifGwtv3AxiA'))
+        await deleteDoc(doc(db, 'to-do', id))
     }
 
     return (
